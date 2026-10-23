@@ -7,17 +7,7 @@ public sealed class ChatHub : Hub
 {
     public async Task SendMessage(string sala, string user, string message)
     {
-        if (string.IsNullOrWhiteSpace(sala))
-        {
-            throw new HubException("El nombre de la sala es obligatorio.");
-        }
-
-        sala = sala.Trim();
-
-        if (sala != "Desarrollo" && sala != "Diseño")
-        {
-            throw new HubException("La sala no es válida.");
-        }
+        sala = ValidarSala(sala);
 
         if (string.IsNullOrWhiteSpace(user) ||
             string.IsNullOrWhiteSpace(message))
@@ -46,6 +36,28 @@ public sealed class ChatHub : Hub
 
     public async Task UnirseASala(string sala)
     {
+        sala = ValidarSala(sala);
+
+        const string claveSalaActual = "SalaActual";
+
+        if (Context.Items.TryGetValue(claveSalaActual, out var valor) &&
+            valor is string salaAnterior &&
+            salaAnterior != sala)
+        {
+            await Groups.RemoveFromGroupAsync(
+                Context.ConnectionId,
+                salaAnterior);
+        }
+
+        await Groups.AddToGroupAsync(
+            Context.ConnectionId,
+            sala);
+
+        Context.Items[claveSalaActual] = sala;
+    }
+
+    private static string ValidarSala(string sala)
+    {
         if (string.IsNullOrWhiteSpace(sala))
         {
             throw new HubException(
@@ -59,9 +71,6 @@ public sealed class ChatHub : Hub
             throw new HubException("La sala no es válida.");
         }
 
-        await Groups.AddToGroupAsync(
-            Context.ConnectionId,
-            sala);
+        return sala;
     }
 }
-
