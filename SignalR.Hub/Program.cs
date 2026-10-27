@@ -7,7 +7,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("ClientPolicy", policy =>
     {
         policy
-            .WithOrigins("https://localhost:7002")
+            .WithOrigins("https://signalr-h2c4cphkemcngsdm.centralus-01.azurewebsites.net")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
