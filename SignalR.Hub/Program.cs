@@ -7,7 +7,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("ClientPolicy", policy =>
     {
         policy
-            .WithOrigins("https://signalr-h2c4cphkemcngsdm.centralus-01.azurewebsites.net")
+            .WithOrigins("\"https://chathub-b2hdatgbenfca9f5.eastus2-01.azurewebsites.net/chatHub")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
