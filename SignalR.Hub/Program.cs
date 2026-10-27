@@ -7,7 +7,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("ClientPolicy", policy =>
     {
         policy
-            .WithOrigins("\"https://chathub-b2hdatgbenfca9f5.eastus2-01.azurewebsites.net/chatHub")
+            .WithOrigins("https://chathub-b2hdatgbenfca9f5.eastus2-01.azurewebsites.net/chatHub",
+            "https://localhost:7002")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
